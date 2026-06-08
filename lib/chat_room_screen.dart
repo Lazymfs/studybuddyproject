@@ -7,7 +7,28 @@ class ChatRoomScreen extends StatelessWidget {
   const ChatRoomScreen({Key? key, required this.chatName}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
+    
+    // --- NEW LOGIC: Dynamic Chat Text based on who you clicked ---
+    String sentMsg = "Hey! Are we still on for the study session?";
+    String receivedMsg = "Awesome, see you then! - $chatName";
+
+    if (chatName == 'Paan') {
+      sentMsg = "Did you update the UI for the login screen?";
+      receivedMsg = "Bro, check the Figma";
+    } else if (chatName == 'Wan') {
+      sentMsg = "Are all the dart files ready for testing?";
+      receivedMsg = "I will compile it tonight.";
+    } else if (chatName == 'Asra') {
+      sentMsg = "Did you find a good map placeholder?";
+      receivedMsg = "Map screenshot added.";
+    } else if (chatName == 'Study Group - Eng 101') {
+      sentMsg = "What chapter is the test covering?";
+      receivedMsg = "Chapters 4 and 5. Don't forget the notes!";
+    } else if (chatName == 'Project Management') {
+      sentMsg = "When is our next sprint review?";
+      receivedMsg = "Meeting tomorrow at 3pm";
+    }
     return Scaffold(
       backgroundColor: AppColors.creamBackground,
       appBar: AppBar(
@@ -20,10 +41,45 @@ class ChatRoomScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Empty space for fake messages
           Expanded(
-            child: Center(
-              child: Text('Chat history with $chatName will appear here', style: const TextStyle(color: Colors.grey)),
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                // Sent Message (Purple Bubble)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryPurple,
+                      borderRadius: BorderRadius.circular(16).copyWith(bottomRight: const Radius.circular(0)), 
+                    ),
+                    child: Text(
+                      sentMsg, // USING DYNAMIC TEXT
+                      style: const TextStyle(color: AppColors.white),
+                    ),
+                  ),
+                ),
+
+                // Received Message (White Bubble)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(16).copyWith(bottomLeft: const Radius.circular(0)),
+                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                    ),
+                    child: Text(
+                      receivedMsg, // USING DYNAMIC TEXT
+                      style: const TextStyle(color: AppColors.textDark),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           
