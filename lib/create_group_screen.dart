@@ -13,6 +13,8 @@ class CreateGroupScreen extends StatefulWidget {
 class _CreateGroupScreenState extends State<CreateGroupScreen> {
   bool isPrivate = false;
 
+final TextEditingController _groupNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +57,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
             ),
             const SizedBox(height: 16),
             const Text('Group Name', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-            const CustomTextField(hintText: 'Enter group name'),
+            CustomTextField(hintText: 'Enter group name', controller: _groupNameController),
             const Text('Subject', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
             const CustomTextField(hintText: 'Enter subject name'),
             const Text('Description', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
@@ -108,12 +110,24 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                         backgroundColor: Colors.green,
                         ),
                        );
+
+                       String enteredGroupName = _groupNameController.text;
+                        if (enteredGroupName.isEmpty) {
+                          enteredGroupName = "My Custom Group"; // Fallback if they leave it empty
+                        }
+
+                      MockData.availableGroups.insert(0, {
+                        'title': enteredGroupName, 
+                        'members': '1 member',
+                        'icon': Icons.group, // Changed to a generic group icon
+                      });
     
                     // 2. Instantly replace the current screen with the View Group screen
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const ViewGroupScreen()),
-                    );
+                    MaterialPageRoute(
+                       builder: (context) => ViewGroupScreen(groupName: enteredGroupName)
+      ),            );
                   },  
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryPurple,

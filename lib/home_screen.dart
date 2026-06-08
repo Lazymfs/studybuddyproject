@@ -86,35 +86,24 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   
                   // Grid of Group Cards
-                  GridView.count(
-                    crossAxisCount: 2,
+                  GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 0.85,
-                    children: const [
-                      GroupCard(
-                        title: 'Eng 101 Study for Exam',
-                        members: '29 members',
-                        icon: Icons.menu_book,
-                      ),
-                      GroupCard(
-                        title: 'Project Management',
-                        members: '15 members',
-                        icon: Icons.group_work,
-                      ),
-                      GroupCard(
-                        title: 'LAB MDC Mobile',
-                        members: '20 members',
-                        icon: Icons.phone_android,
-                      ),
-                      GroupCard(
-                        title: 'CTF for beginners',
-                        members: '18 members',
-                        icon: Icons.flag,
-                      ),
-                    ],
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 0.85,
+                    ),
+                    itemCount: MockData.availableGroups.length,
+                    itemBuilder: (context, index) {
+                      final group = MockData.availableGroups[index];
+                      return GroupCard(
+                        title: group['title'],
+                        members: group['members'],
+                        icon: group['icon'],
+                      );
+                    },
                   ),
                 ],
               ),

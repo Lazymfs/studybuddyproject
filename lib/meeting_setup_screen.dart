@@ -152,7 +152,7 @@ const SizedBox(height: 16),
                     ),
                   );
                   // 2. Close the setup screen and go back to the group page
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryPurple,
