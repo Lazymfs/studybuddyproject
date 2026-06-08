@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'custom_text_field.dart';
+import 'view_group_screen.dart';
 
 class CreateGroupScreen extends StatefulWidget {
   const CreateGroupScreen({Key? key}) : super(key: key);
@@ -100,22 +101,27 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // SHOWS SUCCESS NOTIFICATION, THEN CLOSES THE PAGE
-                ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                 content: Text('Group Created Successfully!'),
-                 backgroundColor: Colors.green,
-                 ),
-               );
-             Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryPurple,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                     // 1. Show the success notification
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Group Created Successfully!'),
+                        backgroundColor: Colors.green,
+                        ),
+                       );
+    
+                    // 2. Instantly replace the current screen with the View Group screen
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ViewGroupScreen()),
+                    );
+                  },  
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryPurple,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                      child: const Text('Create', style: TextStyle(color: AppColors.white)),
-                  ),
+                  child: const Text('Create', style: TextStyle(color: AppColors.white)),
+                ),
                 ),
               ],
             ),

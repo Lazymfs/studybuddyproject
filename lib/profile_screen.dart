@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String username; // ADD THIS
+
+  const ProfileScreen({Key? key, required this.username}) : super(key: key); // UPDATE THIS
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class ProfileScreen extends StatelessWidget {
                     child: const Icon(Icons.person_outline, size: 50, color: AppColors.primaryPurple),
                   ),
                   const SizedBox(height: 16),
-                  const Text('Buddy *Name*', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryPurple)),
+                  Text('Buddy $username*', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryPurple)),
                   const Text('example@unikl.edu.my', style: TextStyle(color: Colors.grey)),
                   const SizedBox(height: 40),
 

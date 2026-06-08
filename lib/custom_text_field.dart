@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool isPassword;
   final IconData? suffixIcon;
+  final TextEditingController? controller;
 
   const CustomTextField({
     Key? key,
     required this.hintText,
     this.isPassword = false,
     this.suffixIcon,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           hintText: hintText,

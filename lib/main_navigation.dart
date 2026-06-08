@@ -7,7 +7,10 @@ import 'profile_screen.dart';
 import 'create_group_screen.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({Key? key}) : super(key: key);
+  final String username; // 1. Add this variable
+
+  // 2. Require it in the constructor
+  const MainNavigation({Key? key, this.username = "User"}) : super(key: key); 
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -16,15 +19,15 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ScheduleScreen(),
-    const MessagesScreen(),
-    const ProfileScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    // 3. Move your _screens list INSIDE the build method so it can access 'widget.username'
+    final List<Widget> _screens = [
+      HomeScreen(username: widget.username), // Passing it to Home
+      const ScheduleScreen(),
+      const MessagesScreen(),
+      ProfileScreen(username: widget.username), // Passing it to Profile
+    ];
     return Scaffold(
       backgroundColor: AppColors.creamBackground,
       body: _screens[_currentIndex],

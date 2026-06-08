@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // 1. Create the controller here
+  final TextEditingController _usernameController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    // Get screen height to proportion the background dynamically
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -55,8 +62,9 @@ class LoginScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 8),
-                    const CustomTextField(
+                     CustomTextField(
                       hintText: 'example@example.com',
+                      controller: _usernameController,
                     ),
                     
                     const Text(
@@ -75,10 +83,14 @@ class LoginScreen extends StatelessWidget {
                     // Login Button
                     ElevatedButton(
                       onPressed: () {
+                        String enteredName = _usernameController.text.split('@')[0];
+                        if (enteredName.isEmpty) {
+                          enteredName = "User"; // Fallback if they leave it empty
+                        }
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const MainNavigation()),
-                         );
+                          MaterialPageRoute(builder: (context) => MainNavigation(username: enteredName)),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryPurple,

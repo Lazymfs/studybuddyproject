@@ -3,7 +3,9 @@ import 'constants.dart';
 import 'group_card.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String username; // ADD THIS
+
+  const HomeScreen({Key? key, required this.username}) : super(key: key); // UPDATE THIS
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Hi 👋\nBuddy *Name*',
+                     Text(
+                      'Hi 👋\nBuddy $username',
                       style: TextStyle(
                         color: AppColors.white,
                         fontSize: 20,
