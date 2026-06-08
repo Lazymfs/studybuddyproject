@@ -4,8 +4,13 @@ import 'constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String username; // ADD THIS
+final String email; // 1. Add email variable
 
-  const ProfileScreen({Key? key, required this.username}) : super(key: key); // UPDATE THIS
+  const ProfileScreen({
+    Key? key, 
+    required this.username, 
+    required this.email // 2. Require it
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +53,8 @@ class ProfileScreen extends StatelessWidget {
                     child: const Icon(Icons.person_outline, size: 50, color: AppColors.primaryPurple),
                   ),
                   const SizedBox(height: 16),
-                  Text('Buddy $username*', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryPurple)),
-                  const Text('example@unikl.edu.my', style: TextStyle(color: Colors.grey)),
+                  Text('Buddy $username', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryPurple)),
+                  Text(email, style: const TextStyle(color: Colors.grey)),
                   const SizedBox(height: 40),
 
                   // Menu Buttons

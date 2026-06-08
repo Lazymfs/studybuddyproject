@@ -143,7 +143,17 @@ const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // 1. Show the success notification
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Meeting Created Successfully! ✓'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  // 2. Close the setup screen and go back to the group page
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryPurple,
                   padding: const EdgeInsets.symmetric(vertical: 16),

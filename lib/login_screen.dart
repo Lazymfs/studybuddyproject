@@ -83,13 +83,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Login Button
                     ElevatedButton(
                       onPressed: () {
-                        String enteredName = _usernameController.text.split('@')[0];
-                        if (enteredName.isEmpty) {
-                          enteredName = "User"; // Fallback if they leave it empty
+                        String fullEmail = _usernameController.text;
+                        if (fullEmail.isEmpty) {
+                          fullEmail = "ame@unikl.edu.my"; // Fallback email
                         }
+                        
+                        // Split it to get just the name
+                        String enteredName = fullEmail.split('@')[0];
+
+                        // Pass BOTH to MainNavigation
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => MainNavigation(username: enteredName)),
+                          MaterialPageRoute(
+                            builder: (context) => MainNavigation(
+                              username: enteredName, 
+                              email: fullEmail, // Passing the email here!
+                            )
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
