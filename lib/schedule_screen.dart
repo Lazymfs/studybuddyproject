@@ -1,62 +1,96 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
-class ScheduleScreen extends StatelessWidget {
+class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
 
   @override
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
+}
+
+class _ScheduleScreenState extends State<ScheduleScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87, // Dark theme like MS Teams
+      backgroundColor: AppColors.creamBackground,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Agenda', style: TextStyle(color: AppColors.white)),
+        backgroundColor: AppColors.primaryPurple,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: const Text('My Schedule', style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text('17 May Monday', style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 16),
-          _buildAgendaItem('13:30', '1 hr', 'Data Science Discussion', 'Library Level 12'),
-          _buildAgendaItem('16:15', '1 hr 15m', 'Project Management Review', 'Online'),
-          const SizedBox(height: 24),
-          const Text('18 May Tuesday', style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 16),
-          _buildAgendaItem('09:30', '1 hr', 'Mobile App Mockup', 'Discussion Room A'),
-        ],
-      ),
-    );
-  }
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Upcoming Meetings',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 16),
 
-  Widget _buildAgendaItem(String time, String duration, String title, String location) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 60,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(time, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                const SizedBox(height: 4),
-                Text(duration, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-              ],
+            // 🚀 NISA: Gabungan data meeting live dari Firebase + Data hantu asal kawan kau
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: MockData.firebaseMeetings.length + MockData.mockMeetings.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> meeting;
+                if (index < MockData.firebaseMeetings.length) {
+                  meeting = MockData.firebaseMeetings[index];
+                } else {
+                  meeting = MockData.mockMeetings[index - MockData.firebaseMeetings.length];
+                }
+
+                // KEKALKAN 100% GAYA DAN KOTAK REKAAN ASAL KAWAN KAU
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryPurple.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.calendar_today, color: AppColors.primaryPurple),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              meeting['title'],
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "${meeting['date']} • ${meeting['time']}",
+                              style: const TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              meeting['location'],
+                              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          ),
-          Container(width: 2, height: 40, color: AppColors.primaryPurple, margin: const EdgeInsets.symmetric(horizontal: 12)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(color: AppColors.white, fontSize: 14, fontWeight: FontWeight.w600)),
-                const SizedBox(height: 4),
-                Text(location, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,10 +1,10 @@
-import 'login_screen.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
+import 'login_screen.dart'; // Pastikan fail ini wujud di folder lib/
 
 class ProfileScreen extends StatelessWidget {
   final String username; // ADD THIS
-final String email; // 1. Add email variable
+  final String email; // 1. Add email variable
 
   const ProfileScreen({
     Key? key, 
@@ -66,7 +66,7 @@ final String email; // 1. Add email variable
                     // This wipes the navigation history and sends them to the Login Screen
                     Navigator.pushAndRemoveUntil(
                       context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                       (route) => false,
                     );
                    }
@@ -113,7 +113,8 @@ class _ProfileMenuButton extends StatelessWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: isDestructive ? Colors.redAccent : AppColors.textDark,
+                // 🚀 NISA: Ditukar ke Colors.black87 sebab AppColors.textDark tiada dalam constants
+                color: isDestructive ? Colors.redAccent : Colors.black87, 
               ),
             ),
             const Spacer(),

@@ -7,7 +7,7 @@ class ChatRoomScreen extends StatelessWidget {
   const ChatRoomScreen({Key? key, required this.chatName}) : super(key: key);
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     
     // --- NEW LOGIC: Dynamic Chat Text based on who you clicked ---
     String sentMsg = "Hey! Are we still on for the study session?";
@@ -29,6 +29,7 @@ class ChatRoomScreen extends StatelessWidget {
       sentMsg = "When is our next sprint review?";
       receivedMsg = "Meeting tomorrow at 3pm";
     }
+
     return Scaffold(
       backgroundColor: AppColors.creamBackground,
       appBar: AppBar(
@@ -75,7 +76,8 @@ class ChatRoomScreen extends StatelessWidget {
                     ),
                     child: Text(
                       receivedMsg, // USING DYNAMIC TEXT
-                      style: const TextStyle(color: AppColors.textDark),
+                      // 🚀 NISA: Ditukar ke Colors.black87 sebab AppColors.textDark tak wujud
+                      style: const TextStyle(color: Colors.black87), 
                     ),
                   ),
                 ),

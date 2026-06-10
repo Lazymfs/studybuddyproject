@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart'; // NISA
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'group_card.dart';
+import 'browse_groups_screen.dart'; // NISA
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final String username; // ADD THIS
 
   const HomeScreen({Key? key, required this.username}) : super(key: key); // UPDATE THIS
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,8 +37,8 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                      Text(
-                      'Hi 👋\nBuddy $username',
-                      style: TextStyle(
+                      'Hi 👋\nBuddy ${widget.username}',
+                      style: const TextStyle(
                         color: AppColors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -78,7 +85,9 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => BrowseGroupsScreen()));
+                        },
                         child: const Text('See all', style: TextStyle(fontSize: 12)),
                       ),
                     ],
@@ -95,13 +104,15 @@ class HomeScreen extends StatelessWidget {
                       mainAxisSpacing: 16,
                       childAspectRatio: 0.85,
                     ),
+                    // 🚀 NISA: Landing page kekal bersih, papar mock data kawan kau sahaja
                     itemCount: MockData.availableGroups.length,
                     itemBuilder: (context, index) {
-                      final group = MockData.availableGroups[index];
+                      Map<String, dynamic> group = MockData.availableGroups[index];                   
+
                       return GroupCard(
                         title: group['title'],
                         members: group['members'],
-                        icon: group['icon'],
+                        icon: group['icon'] ?? Icons.group,
                       );
                     },
                   ),

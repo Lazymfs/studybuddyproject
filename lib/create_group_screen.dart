@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart'; // NISA
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'custom_text_field.dart';
@@ -13,7 +14,7 @@ class CreateGroupScreen extends StatefulWidget {
 class _CreateGroupScreenState extends State<CreateGroupScreen> {
   bool isPrivate = false;
 
-final TextEditingController _groupNameController = TextEditingController();
+  final TextEditingController _groupNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +23,11 @@ final TextEditingController _groupNameController = TextEditingController();
       appBar: AppBar(
         backgroundColor: AppColors.primaryPurple,
         elevation: 0,
-  // ADD THE ICON BUTTON WRAPPER HERE:
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text('Create Your Group', style: TextStyle(color: AppColors.white)),
-  
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -37,7 +36,6 @@ final TextEditingController _groupNameController = TextEditingController();
           children: [
             const Text('Group Photo', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
             const SizedBox(height: 8),
-            // Dashed border placeholder
             Container(
               height: 120,
               width: double.infinity,
@@ -61,7 +59,6 @@ final TextEditingController _groupNameController = TextEditingController();
             const Text('Subject', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
             const CustomTextField(hintText: 'Enter subject name'),
             const Text('Description', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-            // Multi-line text field
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: TextField(
@@ -90,52 +87,63 @@ final TextEditingController _groupNameController = TextEditingController();
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context), // CLOSES THE PAGE
+                    onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primaryPurple),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text('Cancel', style: TextStyle(color: AppColors.primaryPurple)),
+                      side: const BorderSide(color: AppColors.primaryPurple),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text('Cancel', style: TextStyle(color: AppColors.primaryPurple)),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                     // 1. Show the success notification
+                    onPressed: () async {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Group Created Successfully!'),
-                        backgroundColor: Colors.green,
+                          backgroundColor: Colors.green,
                         ),
-                       );
+                      );
 
-                       String enteredGroupName = _groupNameController.text;
-                        if (enteredGroupName.isEmpty) {
-                          enteredGroupName = "My Custom Group"; // Fallback if they leave it empty
-                        }
+                      String enteredGroupName = _groupNameController.text;
+                      if (enteredGroupName.isEmpty) {
+                        enteredGroupName = "My Custom Group";
+                      }
 
-                      MockData.availableGroups.insert(0, {
+                      try {
+                        await FirebaseFirestore.instance.collection('study_groups').add({
+                          'title': enteredGroupName,
+                          'members': '1 member',
+                        });
+                      } catch (e) {
+                        print("Firebase simpan error: $e");
+                      }
+                        
+                      // 🚀 NISA: Masuk ke list gudang firebaseGroups (supaya muncul dekat skrin See All)
+                      MockData.firebaseGroups.insert(0, {
                         'title': enteredGroupName, 
                         'members': '1 member',
-                        'icon': Icons.group, // Changed to a generic group icon
+                        'icon': Icons.group,
                       });
     
-                    // 2. Instantly replace the current screen with the View Group screen
-                    Navigator.pushReplacement(
-                      context,
-                    MaterialPageRoute(
-                       builder: (context) => ViewGroupScreen(groupName: enteredGroupName)
-      ),            );
-                  },  
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryPurple,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewGroupScreen(groupName: enteredGroupName),
+                        ),
+                      ).then((_) {
+                        Navigator.pop(context, true);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryPurple,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text('Create', style: TextStyle(color: AppColors.white)),
                   ),
-                  child: const Text('Create', style: TextStyle(color: AppColors.white)),
-                ),
                 ),
               ],
             ),

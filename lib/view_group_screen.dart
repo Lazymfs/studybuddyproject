@@ -3,7 +3,7 @@ import 'constants.dart';
 import 'meeting_setup_screen.dart';
 
 class ViewGroupScreen extends StatefulWidget {
-  final String groupName; // 1. Add variable
+  final String groupName; 
 
   const ViewGroupScreen({Key? key, required this.groupName}) : super(key: key);
 
@@ -12,8 +12,11 @@ class ViewGroupScreen extends StatefulWidget {
 }
 
 class _ViewGroupScreenState extends State<ViewGroupScreen> {
-  // This tracks if the meeting has been created
   bool meetingSet = false; 
+  
+  // 🚀 NISA: Menyimpan maklumat real-time untuk paparan kad kawan kau
+  String liveDateText = "No meeting scheduled yet";
+  String liveLocationText = "No location set";
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +38,10 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
             alignment: Alignment.topCenter,
             child: Column(
               children: [
-                CircleAvatar(radius: 40, backgroundColor: AppColors.white, child: Icon(Icons.science, size: 40, color: AppColors.primaryPurple)),
-                SizedBox(height: 16),
+                const CircleAvatar(radius: 40, backgroundColor: AppColors.white, child: Icon(Icons.science, size: 40, color: AppColors.primaryPurple)),
+                const SizedBox(height: 16),
                 Text(widget.groupName, style: const TextStyle(color: AppColors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                Text('1 Member', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                const Text('1 Member', style: TextStyle(color: Colors.white70, fontSize: 12)),
               ],
             ),
           ),
@@ -65,15 +68,15 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
                         Row(children: [
                           const Icon(Icons.calendar_today, size: 16, color: Colors.grey), 
                           const SizedBox(width: 8), 
-                          // DYNAMIC TEXT
-                          Text(meetingSet ? 'Tomorrow, 3:00 PM' : 'No meeting scheduled yet', style: TextStyle(color: meetingSet ? AppColors.primaryPurple : Colors.grey, fontWeight: meetingSet ? FontWeight.bold : FontWeight.normal))
+                          // 🚀 NISA: Guna data REAL-TIME pilihan user
+                          Text(liveDateText, style: TextStyle(color: meetingSet ? AppColors.primaryPurple : Colors.grey, fontWeight: meetingSet ? FontWeight.bold : FontWeight.normal))
                         ]),
                         const SizedBox(height: 12),
                         Row(children: [
                           const Icon(Icons.location_on, size: 16, color: Colors.grey), 
                           const SizedBox(width: 8), 
-                          // DYNAMIC TEXT
-                          Text(meetingSet ? 'Discussion Room A' : 'No location set', style: TextStyle(color: meetingSet ? AppColors.textDark : Colors.grey))
+                          // 🚀 NISA: Guna data REAL-TIME pilihan lokasi
+                          Text(liveLocationText, style: TextStyle(color: meetingSet ? Colors.black87 : Colors.grey))
                         ]),
                       ],
                     ),
@@ -107,22 +110,27 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
                         Text(meetingSet ? 'Meeting Ready!' : 'No meeting yet!', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                         const SizedBox(height: 16),
                         
-                        // Hides the button if the meeting is already set
                         if (!meetingSet) 
                           ElevatedButton(
                             onPressed: () async {
-                              // WAITS for the MeetingSetupScreen to close and return 'true'
+                              // 🚀 Tangkap data real-time map/date/time dari screen sebelah
                               final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const MeetingSetupScreen()));
-                              if (result == true) {
+                              
+                              if (result != null && result is Map<String, String>) {
                                 setState(() {
                                   meetingSet = true;
+                                  liveDateText = "${result['date']} @ ${result['time']}";
+                                  liveLocationText = result['location']!;
+                                  
+                                  // Update juga ke dalam list See All global supaya tersimpan live
+                                  if (MockData.firebaseGroups.isNotEmpty) {
+                                    MockData.firebaseGroups[0]['meetingDate'] = liveDateText;
+                                    MockData.firebaseGroups[0]['meetingLocation'] = liveLocationText;
+                                  }
                                 });
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryPurple,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                            ),
+                            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryPurple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                             child: const Text('Set now', style: TextStyle(color: AppColors.white)),
                           ),
                       ],

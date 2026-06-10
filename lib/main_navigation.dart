@@ -38,21 +38,25 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _screens[_currentIndex],
       
       // The FAB only appears if you are on the Home (0) or Schedule (1) tabs
-      floatingActionButton: (_currentIndex == 0 || _currentIndex == 1) 
-          ? FloatingActionButton(
-              onPressed: () {
-                // Pushes Create Group to full screen (hides nav bar)
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CreateGroupScreen()),
-                );
-              },
-              backgroundColor: AppColors.primaryPurple,
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-              child: const Icon(Icons.add, color: AppColors.white, size: 28),
-            )
-          : null, // Hides the button on other tabs
+      // NISA: Logik refresh yang selamat
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryPurple,
+        onPressed: () async {
+          // Tunggu sehingga proses create group selesai
+          final result = await Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => const CreateGroupScreen())
+          );
+          
+          // Once create group success, force HomeScreen to refresh latest data Firebase 
+          if (result == true) {
+            setState(() {
+              _currentIndex = 0; // Kembalikan paparan ke Tab Home
+            });
+          }
+        },
+        child: const Icon(Icons.add, color: AppColors.white),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       
       bottomNavigationBar: BottomAppBar(
