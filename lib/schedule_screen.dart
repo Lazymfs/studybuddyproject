@@ -31,7 +31,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
             const SizedBox(height: 16),
 
-            // 🚀 NISA: Gabungan data meeting live dari Firebase + Data hantu asal kawan kau
+            // Live data and mockup data
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -43,8 +43,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 } else {
                   meeting = MockData.mockMeetings[index - MockData.firebaseMeetings.length];
                 }
-
-                // KEKALKAN 100% GAYA DAN KOTAK REKAAN ASAL KAWAN KAU
+                
                 return Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(16),

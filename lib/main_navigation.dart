@@ -38,11 +38,9 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _screens[_currentIndex],
       
       // The FAB only appears if you are on the Home (0) or Schedule (1) tabs
-      // NISA: Logik refresh yang selamat
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryPurple,
         onPressed: () async {
-          // Tunggu sehingga proses create group selesai
           final result = await Navigator.push(
             context, 
             MaterialPageRoute(builder: (context) => const CreateGroupScreen())
@@ -51,7 +49,7 @@ class _MainNavigationState extends State<MainNavigation> {
           // Once create group success, force HomeScreen to refresh latest data Firebase 
           if (result == true) {
             setState(() {
-              _currentIndex = 0; // Kembalikan paparan ke Tab Home
+              _currentIndex = 0; // Back to Home
             });
           }
         },

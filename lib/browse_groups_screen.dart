@@ -51,7 +51,7 @@ class _BrowseGroupsScreenState extends State<BrowseGroupsScreen> {
                 Map<String, dynamic> group;
                 bool isMyCreatedGroup = false;
 
-                // NISA: Read live data, then mock data
+                // Read live data, then mock data
                 if (index < MockData.firebaseGroups.length) {
                   group = MockData.firebaseGroups[index];
                   isMyCreatedGroup = true; 
@@ -64,7 +64,7 @@ class _BrowseGroupsScreenState extends State<BrowseGroupsScreen> {
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: InkWell(
                     onTap: () {
-                      // NISA: User can only set meeting on group they created
+                      // User can only set meeting on group they created
                       if (isMyCreatedGroup) {
                         Navigator.push(
                           context,

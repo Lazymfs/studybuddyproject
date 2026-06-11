@@ -46,16 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins', // Pastikan font konsisten dengan kawan kau
+                          fontFamily: 'Poppins',
                         ),
                         children: [
                           TextSpan(
                             text: 'Hi ',
-                            style: TextStyle(color: AppColors.white), // "Hi" kekal Putih
+                            style: TextStyle(color: AppColors.white), 
                           ),
                           TextSpan(
                             text: 'Buddy :)',
-                            style: TextStyle(color: Colors.yellow), // "Buddy :)" jadi Kuning
+                            style: TextStyle(color: Colors.yellow), 
                           ),
                         ],
                       ),

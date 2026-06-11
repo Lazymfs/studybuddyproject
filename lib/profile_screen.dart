@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
-import 'login_screen.dart'; // Pastikan fail ini wujud di folder lib/
+import 'login_screen.dart'; 
 
 class ProfileScreen extends StatelessWidget {
   final String username; // ADD THIS
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          // Bottom Cream Container
+          // Bottom Cream (Curved Container)
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -113,7 +113,6 @@ class _ProfileMenuButton extends StatelessWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                // 🚀 NISA: Ditukar ke Colors.black87 sebab AppColors.textDark tiada dalam constants
                 color: isDestructive ? Colors.redAccent : Colors.black87, 
               ),
             ),

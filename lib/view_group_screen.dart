@@ -14,7 +14,6 @@ class ViewGroupScreen extends StatefulWidget {
 class _ViewGroupScreenState extends State<ViewGroupScreen> {
   bool meetingSet = false; 
   
-  // 🚀 NISA: Menyimpan maklumat real-time untuk paparan kad kawan kau
   String liveDateText = "No meeting scheduled yet";
   String liveLocationText = "No location set";
 
@@ -68,14 +67,14 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
                         Row(children: [
                           const Icon(Icons.calendar_today, size: 16, color: Colors.grey), 
                           const SizedBox(width: 8), 
-                          // 🚀 NISA: Guna data REAL-TIME pilihan user
+                          // Use real-time data from user
                           Text(liveDateText, style: TextStyle(color: meetingSet ? AppColors.primaryPurple : Colors.grey, fontWeight: meetingSet ? FontWeight.bold : FontWeight.normal))
                         ]),
                         const SizedBox(height: 12),
                         Row(children: [
                           const Icon(Icons.location_on, size: 16, color: Colors.grey), 
                           const SizedBox(width: 8), 
-                          // 🚀 NISA: Guna data REAL-TIME pilihan lokasi
+                          // Use real-time data from location
                           Text(liveLocationText, style: TextStyle(color: meetingSet ? Colors.black87 : Colors.grey))
                         ]),
                       ],
@@ -113,7 +112,6 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
                         if (!meetingSet) 
                           ElevatedButton(
                             onPressed: () async {
-                              // 🚀 Tangkap data real-time map/date/time dari screen sebelah
                               final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const MeetingSetupScreen()));
                               
                               if (result != null && result is Map<String, String>) {
@@ -122,7 +120,7 @@ class _ViewGroupScreenState extends State<ViewGroupScreen> {
                                   liveDateText = "${result['date']} @ ${result['time']}";
                                   liveLocationText = result['location']!;
                                   
-                                  // Update juga ke dalam list See All global supaya tersimpan live
+                                  // Update also to See All list 
                                   if (MockData.firebaseGroups.isNotEmpty) {
                                     MockData.firebaseGroups[0]['meetingDate'] = liveDateText;
                                     MockData.firebaseGroups[0]['meetingLocation'] = liveLocationText;

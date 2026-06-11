@@ -38,7 +38,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               width: 300, 
               height: 300,
               child: ClipRRect(
-                //borderRadius: BorderRadius.circular(90),
                 child: Image.asset(
                   'assets/ZAS-pose-A08-Super-Hero.png', 
                   fit: BoxFit.contain,

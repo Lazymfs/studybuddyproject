@@ -18,10 +18,9 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
   String? selectedLocation; 
   String selectedTime = "Click to select time (e.g. 14:00)"; 
   
-  // 🚀 NISA: Mengambil tarikh real-time dari CalendarDatePicker
   DateTime realSelectedDate = DateTime.now(); 
 
-  // 🚀 NISA: TAMBAH CONTROLLER INI UNTUK TANGKAP NAMA MEETING YANG KAU TAIP
+  // Controller for meeting
   final TextEditingController titleController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
@@ -73,7 +72,6 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
             const Text('Time', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
             const SizedBox(height: 8),
             
-            // Menggunakan InkWell asal kawan kau untuk pilih jam
             InkWell(
               onTap: () async {
                 TimeOfDay? pickedTime = await showTimePicker(
@@ -143,7 +141,6 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
             const SizedBox(height: 16),
             
             const Text('Meeting Title', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-            // 🚀 NISA: Kita masukkan controller ke dalam CustomTextField kawan kau
             CustomTextField(
               hintText: 'e.g. Study + Q&A Session',
               controller: titleController,
@@ -174,12 +171,11 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  // Format tarikh jadi teks bersih
                   String formattedDate = "${realSelectedDate.day}/${realSelectedDate.month}/${realSelectedDate.year}";
                   String finalTime = selectedTime.contains("Click") ? "14:00" : selectedTime;
                   String finalLoc = selectedLocation ?? 'Library UniKL MIIT';
                   
-                  // 🚀 NISA: Kalau user tak taip apa-apa, kita bagi default name. Kalau dia taip, kita ambil teks real dia!
+                  // Fallback if user did not enter meeting title
                   String finalTitle = titleController.text.trim().isEmpty 
                       ? 'Group Study Session' 
                       : titleController.text.trim();
@@ -188,7 +184,6 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
                     const SnackBar(content: Text('Meeting Created Successfully! ✓'), backgroundColor: Colors.green),
                   );
 
-                  // 🚀 SEKARANG FIREBASE AKAN IKUT NAMA YANG KAU TAIP!
                   try {
                     await FirebaseFirestore.instance.collection('meetings').add({
                       'title': finalTitle,
@@ -197,7 +192,7 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
                       'location': finalLoc,
                     });
 
-                    // Masukkan ke local storage untuk My Schedule
+                    // Masukkan ke firebase untuk Schedule
                     MockData.firebaseMeetings.insert(0, {
                       'title': finalTitle,
                       'date': formattedDate,
@@ -208,7 +203,6 @@ class _MeetingSetupScreenState extends State<MeetingSetupScreen> {
                     print("Error Firebase: $e");
                   }
 
-                  // Pulangkan data ke skrin detail
                   Navigator.pop(context, {
                     'title': finalTitle,
                     'date': formattedDate,

@@ -56,11 +56,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           TextSpan(
                             text: 'Create ',
-                            style: TextStyle(color: AppColors.white), // "Create" kekal Putih
+                            style: TextStyle(color: AppColors.white), 
                           ),
                           TextSpan(
                             text: 'Account',
-                            style: TextStyle(color: Colors.yellow), // "Account" jadi Kuning
+                            style: TextStyle(color: Colors.yellow),
                           ),
                         ],
                       ),
