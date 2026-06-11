@@ -75,8 +75,7 @@ class ChatRoomScreen extends StatelessWidget {
                       boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
                     ),
                     child: Text(
-                      receivedMsg, // USING DYNAMIC TEXT
-                      // 🚀 NISA: Ditukar ke Colors.black87 sebab AppColors.textDark tak wujud
+                      receivedMsg, 
                       style: const TextStyle(color: Colors.black87), 
                     ),
                   ),
@@ -98,7 +97,7 @@ class ChatRoomScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
-                    autofocus: true, // THIS POPS THE KEYBOARD AUTOMATICALLY
+                    autofocus: true, // Pop keyboard
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
                       filled: true,

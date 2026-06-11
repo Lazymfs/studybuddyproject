@@ -51,29 +51,29 @@ class _BrowseGroupsScreenState extends State<BrowseGroupsScreen> {
                 Map<String, dynamic> group;
                 bool isMyCreatedGroup = false;
 
-                // Baca data live kau dulu, kemudian baru mock data
+                // NISA: Read live data, then mock data
                 if (index < MockData.firebaseGroups.length) {
                   group = MockData.firebaseGroups[index];
-                  isMyCreatedGroup = true; // 🚀 NISA: Ini group milik kau!
+                  isMyCreatedGroup = true; 
                 } else {
                   group = MockData.availableGroups[index - MockData.firebaseGroups.length];
-                  isMyCreatedGroup = false; // Ini group hantu orang lain
+                  isMyCreatedGroup = false; 
                 }
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: InkWell(
                     onTap: () {
-                      // 🚀 NISA: HANYA group kau sendiri yang boleh diklik masuk untuk set meeting!
+                      // NISA: User can only set meeting on group they created
                       if (isMyCreatedGroup) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ViewGroupScreen(groupName: group['title']),
                           ),
-                        ).then((_) => setState(() {})); // Refresh skrin bila patah balik
+                        ).then((_) => setState(() {})); 
                       } else {
-                        // Kalau klik group hantu orang lain, bagi alert bagitahu tak boleh set meeting
+                        // Notify user 
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('You can only manage and set meetings for groups you created! 🔒'),
@@ -95,7 +95,6 @@ class _BrowseGroupsScreenState extends State<BrowseGroupsScreen> {
                               const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
                               const SizedBox(width: 4),
                               Text(
-                                // 🚀 NISA: Kalau meeting belum set, tunjuk status belum set (bukan hardcoded hantu)
                                 group['meetingDate'] ?? (isMyCreatedGroup ? 'No meeting set yet' : 'SAT, JUNE 13 7:00 PM UTC'),
                                 style: const TextStyle(color: Colors.grey, fontSize: 11),
                               ),
@@ -119,9 +118,9 @@ class _BrowseGroupsScreenState extends State<BrowseGroupsScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   if (isMyCreatedGroup) {
-                                    // Group sendiri tak payah join, kita kan creator
+                                    // Own group cannot join
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('You are the creator of this group! 😎')),
+                                      const SnackBar(content: Text('You are the creator of this group!')),
                                     );
                                   } else {
                                     setState(() {

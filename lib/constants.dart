@@ -38,11 +38,10 @@ class MockData {
     },
   ];
 
-  // 🚀 NISA: Stor simpanan untuk data live dari Firebase
+  // NISA: Store for live data 
   static List<Map<String, dynamic>> firebaseGroups = [];
   static List<Map<String, dynamic>> firebaseMeetings = [];
 
-  // Mock data asal untuk Schedule kawan kau
   static List<Map<String, dynamic>> mockMeetings = [
     {
       'title': 'Mobile Dev Discussion',

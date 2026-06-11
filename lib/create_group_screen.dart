@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; // NISA
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'custom_text_field.dart';
@@ -121,7 +121,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                         print("Firebase simpan error: $e");
                       }
                         
-                      // 🚀 NISA: Masuk ke list gudang firebaseGroups (supaya muncul dekat skrin See All)
+                      // Group masuk dalam firebase
                       MockData.firebaseGroups.insert(0, {
                         'title': enteredGroupName, 
                         'members': '1 member',

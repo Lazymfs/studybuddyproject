@@ -104,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSpacing: 16,
                       childAspectRatio: 0.85,
                     ),
-                    // 🚀 NISA: Landing page kekal bersih, papar mock data kawan kau sahaja
                     itemCount: MockData.availableGroups.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> group = MockData.availableGroups[index];                   

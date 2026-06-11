@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // NISA: TAMBAH IMPORT FIREBASE CORE
-import 'login_screen.dart'; 
+import 'package:firebase_core/firebase_core.dart'; 
+import 'package:studybuddyproject/onboarding_screen.dart';
+import 'onboarding_screen.dart'; 
 
 void main() async {
-  // NISA:TAMBAH NI SUPAYA FLUTTER READY SEBELUM BIND DENGAN FIREBASE
   WidgetsFlutterBinding.ensureInitialized();
 
-  // NISA: INITIALIZE FIREBASE DIRECT GUNA DATA DARI GOOGLE-SERVICES.JSON (android/app)
+  // Initialize Firebase using data from google-services.json
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyBONgtWzCXPdD3c-QbY1vdDbD-qXb6Jvis", 
@@ -28,7 +28,7 @@ class StudyBuddyApp extends StatelessWidget {
       title: 'Study Buddy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: const LoginScreen(), 
+      home: const OnboardingScreen(), 
     );
   }
 }
