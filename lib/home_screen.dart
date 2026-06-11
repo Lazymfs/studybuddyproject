@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; // NISA
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'group_card.dart';
-import 'browse_groups_screen.dart'; // NISA
+import 'browse_groups_screen.dart'; 
 
 class HomeScreen extends StatefulWidget {
   final String username; // ADD THIS
